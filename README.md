@@ -50,17 +50,18 @@ Supplement codes and data for paper _A non-parametric approach for estimating co
   **Simu1_2_Table.R**: automatically conducts all simulations correspond to the previous file with different settings and present Table S.1.
 
   ### Under Plots folder (and their plots):
-  **Instability_Boundary_Correction.R**: 2 functions, one shows the instability on boundary due to the non-identifiability when theta_1 is not fixed; another shows the slow convergence when lambda*tau is large (thus we need the two-step MLE).\ 
+  **Instability_Boundary_Correction.R**: 2 functions, one shows the instability on boundary due to the non-identifiability when theta_1 is not fixed; another shows the slow convergence when lambda*tau is large (thus we need the two-step MLE).\
       &nbsp;&nbsp;&nbsp;&nbsp; Results from it is saved in file Example_MLE_2step_for_large_lambda.RData.
   
   **example_plot.R**: Used to generate the Fig 1 and Fig 2 in the paper.\
        &nbsp;&nbsp;&nbsp;&nbsp; Fig 2 is saved as example_plot.pdf.
 
-
   **HulC_plot.R**: main function to draw the fitted curves of MLE, Init and PT estimates and their 90% HulC band/credible band in (one of) the settings. 
   
   **HulC_plot_simu_all.R**: automatically conducts all plottings correspond to the previous file with different settings and generate the plots.\
     &nbsp;&nbsp;&nbsp;&nbsp; Results from them is saved as HulC_Simu_unif.pdf and the others in the same folder.
+
+  **median_bias_simu.R**: main function simulate the median bias and difference in median of MLE, Init and PT (which is not meaningful) estimate to the true F0 with K=20 (since we have batches in HulC methods; when K grows, they will be even smaller) in (one of) the settings. Could be seen that the median bias is usually small for MLE excluding the boundary for all settings we used in the plots. Use as initial study, only for reference.
 
 ### Under Empirical folder (and their plots):
 
