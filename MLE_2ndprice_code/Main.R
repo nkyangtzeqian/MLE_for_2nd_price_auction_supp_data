@@ -8,7 +8,7 @@ Initialization_lambda_F <- function(data, reserve.price.Cutoff){
   ## Lambda initialization
   ############################################################################################################
   K_r <- which(data$r_k < reserve.price.Cutoff) ## Auctions with reserve price less than reserve.price.Cutoff
-  ## K_r should be V(q,e) in the paper
+  ## K_r should be V(q) in the paper
   M_k <- data$M_k[K_r]
   
   inv_g <- function(lambda){
@@ -254,7 +254,7 @@ Initialization_lambda_F_fp <- function(data, reserve.price.Cutoff){
   ## Lambda initialization
   ############################################################################################################
   K_r <- which(data$r_k < reserve.price.Cutoff) ## Auctions with reserve price less than reserve.price.Cutoff
-  ## K_r should be V(q,e) in the paper
+  ## K_r should be V(q) in the paper
   M_k <- data$M_k[K_r]
   
   inv_g <- function(lambda){

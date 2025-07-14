@@ -41,8 +41,10 @@ Supplement codes and data for paper _A non-parametric approach for estimating co
 
 
   **Simu2_HulC_Coverage.R**:  main function to conduct (one of) the simulation in Table 3 (comparison of HulC band of MLE, Init and credible band of PT on band area and coverage, with K=100 and 1000; originally Table2).
+
+  **Simu2_2_HulC_TruncCoverage.R**:  main function to conduct (one of) the simulation in Table 3 (comparison of HulC band of MLE, Init and credible band of PT on truncated coverage, with K=100 and 1000; originally Table2).
   
-  **Simu2_Table.R**: automatically conducts all simulations correspond to the previous file with different settings and present Table 3. Also calculate truncated coverage here.
+  **Simu2_Table.R**: automatically conducts all simulations correspond to the previous two files with different settings and present Table 3. First run coverage, then run truncated coverage.
 
 
   **Simu1_2_morebidder.R**:  main function to conduct (one of) the simulation in Table S.1 in Supplement _Additional simulation experiments: Settings with high expected number of participants per auction_ (comparison of MLE, Init and PT estimate on KS and TV, with lambda=10 and 50).
@@ -84,6 +86,8 @@ Supplement codes and data for paper _A non-parametric approach for estimating co
   **Table1_unif_K=100.RData** and so on: results of Simu1.R and Simu1_Table.R.
   
   **HulC_Cov_unif With No. Auction = 100.RData** and so on: results of Simu2_HulC_Coverage.R and Simu2_Table.R.
+
+  **HulC_TrunCov_unif With No. Auction = 100.RData** and so on: results of Simu2_2_HulC_TruncCoverage.R and Simu2_Table.R (truncated coverage).
   
   **Table1_unif_Lbd=10.RData** and so on: results of Simu1_2_morebidder.R and Simu1_2_Table.R.
 
