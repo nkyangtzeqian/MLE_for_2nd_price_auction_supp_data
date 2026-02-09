@@ -30,7 +30,7 @@ Data_Gen_Unobserved_PolyaTree <- function(Raw_data_all_list){
   
   ret$class = "SecondPriceAuction_PolyaTree"
   
-  ret$Ka = Ka
+  ret$Ka = nrow(dat)
   return(ret)
 }
 

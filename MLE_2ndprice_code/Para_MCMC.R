@@ -4,11 +4,12 @@ MCMC_gamma <- function(ret, F.x){
     stop("This fucntion works only with data in the class 'SecondPriceAuction_PolyaTree.Rawdata'.
          See e.g., 'Data_Gen_Unobserved_PolyaTree' where we generate such data.")
   } 
+  if (Ka==1000) {scale.gamma <- 0.02}
+  if (Ka==100) {scale.gamma <- 0.05}
+  
   dat <- ret$dat
   Ka <- ret$Ka
   
-  if (Ka==1000) {scale.gamma <- 0.02}
-  if (Ka==100) {scale.gamma <- 0.05}
   gamma.init <- c(0.3,0.3);
   
   
@@ -26,11 +27,12 @@ MCMC_tNorm <- function(ret, F.x){
     stop("This fucntion works only with data in the class 'SecondPriceAuction_PolyaTree.Rawdata'.
          See e.g., 'Data_Gen_Unobserved_PolyaTree' where we generate such data.")
   } 
-  dat <- ret$dat
-  Ka <- ret$Ka
-  
   if (Ka==1000) {scale.tnorm  <- 0.1}
   if (Ka==100) {scale.tnorm  <- 0.2}
+  
+  dat <- ret$dat
+  Ka <- ret$Ka
+
   tnorm.init <- c(0,10);
   
   
