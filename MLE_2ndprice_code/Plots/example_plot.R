@@ -128,7 +128,7 @@ for (i in 1:4) {
   plot.xx<- xx
   plot.yy<- yy
   zz<- stepfun(time.cum, c(example_orig[[i]]$r_k,plot.yy), ties = "ordered", right = FALSE)
-  plot(zz, cex.points= .5, xlim=c(0,10), ylim = c(0,26), xlab="Time in days", ylab="Asking price in dollars", main=paste0("Example bidding data in Acution ",i))
+  plot(zz, cex.points= .5, xlim=c(0,10), ylim = c(0,26), xlab="Time in days", ylab="Asking price in dollars", main=paste0("Example bidding data in Auction ",i))
   for(ii in 1:length(time.cum)){
     segments(time.cum[ii], 0, time.cum[ii], plot.xx[ii], col="blue")
   }

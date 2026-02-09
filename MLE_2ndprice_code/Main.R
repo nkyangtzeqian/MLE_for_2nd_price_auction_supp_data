@@ -8,7 +8,7 @@ Initialization_lambda_F <- function(data, reserve.price.Cutoff){
   ## Lambda initialization
   ############################################################################################################
   K_r <- which(data$r_k < reserve.price.Cutoff) ## Auctions with reserve price less than reserve.price.Cutoff
-  ## K_r should be V(q) in the paper
+  ## K_r should be V(q,e) in the paper
   M_k <- data$M_k[K_r]
   
   inv_g <- function(lambda){
@@ -76,7 +76,7 @@ Initialization_lambda_F <- function(data, reserve.price.Cutoff){
   ## Step III
   
   ## change m1 m2 to p2 p1
-  p1 <- max(X_1)
+  p1 <- max(X_1, na.rm = TRUE)
   p2 <- min(X_mk)
   seq_p1p2 <- seq(0, min(p1,p2), by = 0.0001)
   Fc <- sapply(seq_p1p2, F_FP) - F_SP(p2)
@@ -254,7 +254,7 @@ Initialization_lambda_F_fp <- function(data, reserve.price.Cutoff){
   ## Lambda initialization
   ############################################################################################################
   K_r <- which(data$r_k < reserve.price.Cutoff) ## Auctions with reserve price less than reserve.price.Cutoff
-  ## K_r should be V(q) in the paper
+  ## K_r should be V(q,e) in the paper
   M_k <- data$M_k[K_r]
   
   inv_g <- function(lambda){

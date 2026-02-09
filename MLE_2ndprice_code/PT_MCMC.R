@@ -21,7 +21,9 @@ Data_Gen_Unobserved_PolyaTree <- function(Raw_data_all_list){
     dat[jj,3] <- max(temp)
     
   }# END of for(jj in 1: Ka)
-
+  
+  dat=dat[dat[,1]>0,] ## only keep auctions with more than 1 bid to prevent failure
+  
   dat <- dat[order(dat[,2], decreasing=TRUE),]
   
   ret <- list(dat=dat)

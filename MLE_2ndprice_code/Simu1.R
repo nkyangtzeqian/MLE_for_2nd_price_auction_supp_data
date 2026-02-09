@@ -17,6 +17,8 @@ source("DisCompare.R")
 source("SettingGeneration.R")
 source("PT_MCMC.R")
 
+source("ProfitMetric.R")
+
 #------------------------------------------------------------------------------------
 ## User Input: True lambda, Auction window, Number of independent auctions 'N.auction'
 #------------------------------------------------------------------------------------
@@ -34,14 +36,25 @@ tau_a <- 100
 
 
 distanceList <- list(
-  KS.init = rep(0, replication),
-  KS.mle = rep(0, replication),
-  KS.pt = rep(0, replication),
-  TV.init = rep(0, replication),
-  TV.mle = rep(0, replication),
-  TV.pt = rep(0, replication)
+  KS.init = rep(NA, replication),
+  KS.mle = rep(NA, replication),
+  KS.pt = rep(NA, replication),
+  TV.init = rep(NA, replication),
+  TV.mle = rep(NA, replication),
+  TV.pt = rep(NA, replication)
 )
 
+Profit_allList <- list(
+  max_price.init= rep(NA, replication),
+  max_price.mle= rep(NA, replication),
+  max_price.pt= rep(NA, replication),
+  Profit.init = rep(NA, replication),
+  Profit.mle = rep(NA, replication),
+  Profit.pt = rep(NA, replication),
+  est_Profit.init = rep(NA, replication),
+  est_Profit.mle = rep(NA, replication),
+  est_Profit.pt = rep(NA, replication)
+)
 
 for(ii in 1:replication){
   
@@ -71,6 +84,7 @@ for(ii in 1:replication){
   data_Polya <- Data_Gen_Unobserved_PolyaTree(Raw_data_all_list)
   Bayes_PT <- MCMC_PT(data_Polya, data$Z_iT_i[,1], x.max=max(x.med.vec))
   
+  
   ## Kolmogorov-smirnov distance:
   distanceList$KS.init[ii] <- KS.d(Init.Values$F.y, trueF)
   distanceList$KS.mle[ii] <- KS.d(MLE$F.y, trueF)
@@ -84,6 +98,23 @@ for(ii in 1:replication){
   distanceList$TV.init[ii] <- Setting_Gen_Tab1_TV(e1 = e1.init,data,trueF, method = method.in, para1, para2)[[1]]
   distanceList$TV.mle[ii] <- Setting_Gen_Tab1_TV(e1 = e1.mle,data,trueF, method = method.in, para1, para2)[[1]]
   distanceList$TV.pt[ii] <- Setting_Gen_Tab1_TV(e1 = e1.pt,data,trueF, method = method.in, para1, para2)[[1]]
+  
+  ## Profit Metric:
+  Profit_init_list <- ProfitMetric(e1 = e1.init, method = method.in, para1, para2)
+  Profit_mle_list <- ProfitMetric(e1 = e1.mle, method = method.in, para1, para2)
+  Profit_pt_list <- ProfitMetric(e1 = e1.pt, method = method.in, para1, para2)
+  
+  Profit_allList$max_price.init[ii] <- Profit_init_list[[1]]
+  Profit_allList$max_price.mle[ii] <- Profit_mle_list[[1]]
+  Profit_allList$max_price.pt[ii] <- Profit_pt_list[[1]]
+  
+  Profit_allList$Profit.init[ii] <- Profit_init_list[[2]]
+  Profit_allList$Profit.mle[ii] <- Profit_mle_list[[2]]
+  Profit_allList$Profit.pt[ii] <- Profit_pt_list[[2]]
+  
+  Profit_allList$est_Profit.init[ii] <- Profit_init_list[[3]]
+  Profit_allList$est_Profit.mle[ii] <- Profit_mle_list[[3]]
+  Profit_allList$est_Profit.pt[ii] <- Profit_pt_list[[3]]
   
   print(paste("ii =", ii, "init = ",distanceList$KS.init[ii],"mle = " , distanceList$KS.mle[ii], 
               "pt = ", distanceList$KS.pt[ii]))
@@ -106,7 +137,17 @@ print(paste("TV.init.mean =", TV.init.mean))
 print(paste("TV.pt.mean =", TV.pt.mean))
 
 
-save(list="distanceList", file = paste0("SIMU/Table1_", method.in, "_K=", Ka, ".RData"))
+save(list="distanceList", file = paste0("SIMU/backup_S1/Table1_", method.in, "_K=", Ka, ".RData"))
+
+Profit.init.mean <- mean(Profit_allList$Profit.init)
+Profit.mle.mean <- mean(Profit_allList$Profit.mle)
+Profit.pt.mean <- mean(Profit_allList$Profit.pt)
+
+print(paste("Profit.mle.mean =", Profit.mle.mean))
+print(paste("Profit.init.mean =", Profit.init.mean))
+print(paste("Profit.pt.mean =", Profit.pt.mean))
+
+save(list="Profit_allList", file = paste0("SIMU/backup_S1/Table1_ProfitRes_", method.in, "_K=", Ka, ".RData"))
 #######################################################################################
 ## Settings
 #######################################################################################
