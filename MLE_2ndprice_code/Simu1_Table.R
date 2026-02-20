@@ -183,18 +183,22 @@ Table1=data.frame(Method=SimuList$Method,
                   TV.tNorm.mean=NA
 )
 
+mean_T=function(x){ ## TN-F always fail
+  mean(x[x<1],na.rm = TRUE)
+}
+
 for (i in 1:length(SimuList$Method)) {
   load(paste0("SIMU/Table1A_", SimuList$Method[i], "_K=", SimuList$Ka[i], ".RData"))
-  Table1$KS.mle.mean[i] <- mean(distanceList$KS.mle)
-  Table1$KS.init.mean[i] <- mean(distanceList$KS.init)
-  Table1$KS.pt.mean[i] <- mean(distanceList$KS.pt)
-  Table1$KS.gamma.mean[i] <- mean(distanceList$Ks.gamma, na.rm = TRUE)
-  Table1$KS.tNorm.mean[i] <- mean(distanceList$KS.tNorm, na.rm = TRUE)
-  Table1$TV.mle.mean[i] <- mean(distanceList$TV.mle)
-  Table1$TV.init.mean[i] <- mean(distanceList$TV.init)
-  Table1$TV.pt.mean[i] <- mean(distanceList$TV.pt)
-  Table1$TV.gamma.mean[i] <- mean(distanceList$TV.gamma, na.rm = TRUE)
-  Table1$TV.tNorm.mean[i] <- mean(distanceList$TV.tNorm, na.rm = TRUE)
+  Table1$KS.mle.mean[i] <- mean_T(distanceList$KS.mle)
+  Table1$KS.init.mean[i] <- mean_T(distanceList$KS.init)
+  Table1$KS.pt.mean[i] <- mean_T(distanceList$KS.pt)
+  Table1$KS.gamma.mean[i] <- mean_T(distanceList$Ks.gamma)
+  Table1$KS.tNorm.mean[i] <- mean_T(distanceList$KS.tNorm)
+  Table1$TV.mle.mean[i] <- mean_T(distanceList$TV.mle)
+  Table1$TV.init.mean[i] <- mean_T(distanceList$TV.init)
+  Table1$TV.pt.mean[i] <- mean_T(distanceList$TV.pt)
+  Table1$TV.gamma.mean[i] <- mean_T(distanceList$TV.gamma)
+  Table1$TV.tNorm.mean[i] <- mean_T(distanceList$TV.tNorm)
 }
 
 Table1
