@@ -20,7 +20,7 @@ Data_Gen_Raw <- function(Ka, tau_a, lambda0_list, r_k,
     # N_all[jj] <- sum(cumsum(tts) <= tau_a) 
     # t_otts <- cumsum(tts)[1:N_all[jj]]
     N_all[jj] <- rpois(1, Lambda0(tau_a)) # Total number of potential bids for the jth auction, might be smaller than r. Not observed.
-    tts <- runif(n = N_all[jj], min = 0, max = tau_a) # All the inter-arrival times of the bidders for the jth process before transformation
+    tts <- runif(n = N_all[jj], min = 0, max = Lambda0(tau_a)) # All the inter-arrival times of the bidders for the jth process before transformation
     t_otts <- Lambda0_inv(sort(tts)) # All the inter-arrival times
     if(method == "unif"){
       yy <- runif(n = N_all[jj], min=para1, max=para2) # All the private values of the bidders for the jth process

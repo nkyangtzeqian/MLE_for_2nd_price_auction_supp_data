@@ -83,8 +83,8 @@ lambda_MLE_step <- function(data,theta,lambda_old,lambda_set){
   
   # two stage case
   lambda_MLE_step_2 <- function(data,theta,tau_1,lambda_list_old){
-    K_sold_tau <- (data$T_0 <= tau_1) & (data$M_k>0)
-    K_sold_min_tau <- (data$T_0 > tau_1) & (data$M_k>0)
+    K_sold_tau <- (data$T_0 <= tau_1) & ((1:data$Ka) %in% data$K_sold)
+    K_sold_min_tau <- (data$T_0 > tau_1) & ((1:data$Ka) %in% data$K_sold)
     T_1 <- (data$Z_iT_iA_i[ ,3] <= tau_1)
     T_2 <- ( (data$Z_iT_iA_i[ ,3] > tau_1) & (A_m_T <= tau_1) )
     T_3 <- (A_m_T > tau_1)
@@ -95,7 +95,7 @@ lambda_MLE_step <- function(data,theta,lambda_old,lambda_set){
       sum((tau_1-A_m_T) * cumprod(theta)*T_2)
     Coe4 <- sum(data$Z_iT_iA_i[ ,2] * cumprod(theta)*T_3) +
       sum((data$Z_iT_iA_i[ ,3]-tau_1) * cumprod(theta)*T_2)
-    if(length(K_sold_min_tau)==0){ ## all first price changes happens in first stage; quite common
+    if(sum(K_sold_min_tau)==0){ ## all first price changes happens in first stage; quite common
       lambda1 <- Coe1/Coe3
       lambda2 <- Coe2/Coe4
     }else{

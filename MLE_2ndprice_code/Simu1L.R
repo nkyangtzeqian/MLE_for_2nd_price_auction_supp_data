@@ -37,10 +37,16 @@ LAMBDA_SET_LIST=list(
 replication <- 100  # replication numbers of each such event i.e. selling an
 # identical stuff on ebay with multiple independent auctions.
 
-lambda0_1 <- 1
-lambda0_2 <- 5 ## might not be used; 2 is too small to make any difference
+lambda0s <- list(
+  list(lambda0_1 = 1, lambda0_2 = NULL),
+  list(lambda0_1 = 0.1, lambda0_2 = 10),
+  list(lambda0_1 = 1, lambda0_2 = NULL)
+)
+lambda0_1=lambda0s[[LAMBDA0_SETTING_INDEX]]$lambda0_1
+lambda0_2=lambda0s[[LAMBDA0_SETTING_INDEX]]$lambda0_2
+## might not be used; 2 is too small to make any difference
 lambda0_list <- lambda0_list_init(lambda0_1,lambda0_2,LAMBDA_SET_LIST[[LAMBDA0_SETTING_INDEX]])
-rm(lambda0_1,lambda0_2) ## avoid using them
+rm(lambda0_1,lambda0_2,lambda0s) ## avoid using them
 tau_a <- 100
 
 #------------------------------------------------------------------------------------
@@ -100,6 +106,17 @@ Profit_allList <- list(
   est_Profit.tNorm = rep(NA, replication)
 )
 
+lambdaestList <- list(
+  l1.init1 = rep(NA, replication),
+  l1.init2 = rep(NA, replication),
+  l1.init3 = rep(NA, replication),
+  l1.mle1 = rep(NA, replication),
+  l1.mle2 = rep(NA, replication),
+  l1.mle3 = rep(NA, replication),
+  l2.init2 = rep(NA, replication),
+  l2.mle2 = rep(NA, replication)
+)
+
 for(ii in 1:replication){
   
   set.seed(ii)
@@ -116,6 +133,8 @@ for(ii in 1:replication){
                                     r_k, method = method.in, para1, para2)
   data <- Data_Gen_Observed(Raw_data_all_list)
   
+  if(LAMBDA0_SETTING_INDEX == 2) MLE_2ndprice <- MLE_2ndprice_twosteps ## lambda=10 is too large, two step accerlation is needed
+  
   Init.Values_1 <- Initialization_lambda_F(data, reserve.price.Cutoff, lambda_set = LAMBDA_SET_LIST[[1]])
   theta.init <- (1-Init.Values_1$F.y)/ c(1,(1-Init.Values_1$F.y)[-length(Init.Values_1$F.y)])
   MLE_1 <- MLE_2ndprice(data, lambda.in = Init.Values_1$lambda, theta.in = theta.init, lambda_set = LAMBDA_SET_LIST[[1]])
@@ -128,6 +147,14 @@ for(ii in 1:replication){
   theta.init <- (1-Init.Values_3$F.y)/ c(1,(1-Init.Values_3$F.y)[-length(Init.Values_3$F.y)])
   MLE_3 <- MLE_2ndprice(data, lambda.in = Init.Values_3$lambda, theta.in = theta.init, lambda_set = LAMBDA_SET_LIST[[3]])
 
+  lambdaestList$l1.init1[ii] <- Init.Values_1$lambdas[1]
+  lambdaestList$l1.init2[ii] <- Init.Values_2$lambdas[1]
+  lambdaestList$l1.init3[ii] <- Init.Values_3$lambdas[1]
+  lambdaestList$l1.mle1[ii] <- MLE_1$lambdas[1]
+  lambdaestList$l1.mle2[ii] <- MLE_2$lambdas[1]
+  lambdaestList$l1.mle3[ii] <- MLE_3$lambdas[1]
+  lambdaestList$l2.init2[ii] <- Init.Values_2$lambdas[2]
+  lambdaestList$l2.MLE2[ii] <- MLE_2$lambdas[2]
   
   ## True F:
   trueF <- Setting_Gen_Tab1_F0(data, method = method.in, para1, para2)[[1]]
@@ -237,6 +264,7 @@ print(paste("TV.tNorm.mean =", TV.tNorm.mean))
 
 
 save(list="distanceList", file = paste0("SIMU/Table1L_", LAMBDA0_SETTING_INDEX,"_", method.in, "_K=", Ka, ".RData"))
+save(list="lambdaestList", file = paste0("SIMU/backup_Lambda/Table1L_", LAMBDA0_SETTING_INDEX,"_lambdaest_", method.in, "_K=", Ka, ".RData"))
 
 Profit.init1.mean <- mean(Profit_allList$Profit.init1)
 Profit.mle1.mean <- mean(Profit_allList$Profit.mle1)
