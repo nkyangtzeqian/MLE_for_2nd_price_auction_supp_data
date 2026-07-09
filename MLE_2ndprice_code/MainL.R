@@ -3,7 +3,8 @@ library(GoFKernel) # For the inverse function of a CDF
 
 ### Function to compute Initial values for Lambda and F
 
-Initialization_lambda_F <- function(data, reserve.price.Cutoff, lambda_set){
+Initialization_lambda_F <- function(data, reserve.price.Cutoff, lambda_set, MAX_L_EST=1000){
+  ## MAX_L_EST: avoid too large lambda estimate when necessary, which may cause numerical issue and slow convergence in the optimization.
   ############################################################################################################
   ## Lambda initialization
   ############################################################################################################
@@ -27,8 +28,8 @@ Initialization_lambda_F <- function(data, reserve.price.Cutoff, lambda_set){
       sum( cumsum(c(data$T_0[k],data$data_list_Obs[[k]]$t_i_p))<=tau_1 ) -1 # -1 remove reserve price.
     }))  ## mean of M of K_r auctions with tau_a <= tau_1
     
-    lt_init_1 <- optimize(inv_g, interval = c(1e-5, 1000*tau_a), M = mean(M_k))$minimum
-    lt_init_2 <- optimize(inv_g, interval = c(1e-5, 1000*tau_a), M = M_k_tau1)$minimum
+    lt_init_1 <- optimize(inv_g, interval = c(1e-5, MAX_L_EST*tau_a), M = mean(M_k))$minimum
+    lt_init_2 <- optimize(inv_g, interval = c(1e-5, MAX_L_EST*tau_a), M = M_k_tau1)$minimum
     lambda_1_init <- lt_init_2/tau_1
     lambda_2_init <- (lt_init_1 - lt_init_2)/(data$tau_a - tau_1)
     
@@ -36,7 +37,7 @@ Initialization_lambda_F <- function(data, reserve.price.Cutoff, lambda_set){
   }else{
     h_index <- lambda_set$h_index
     Htau <- h_list_gen(h_index)[[2]](data$tau_a)
-    lt_init <- optimize(inv_g, interval = c(1e-5, 1000*Htau), M = mean(M_k))$minimum
+    lt_init <- optimize(inv_g, interval = c(1e-5, MAX_L_EST*Htau), M = mean(M_k))$minimum
     lambda_init <- lt_init/Htau
   }
   # lambda_init <- optimize(inv_g, interval = c(0, 10))$minimum

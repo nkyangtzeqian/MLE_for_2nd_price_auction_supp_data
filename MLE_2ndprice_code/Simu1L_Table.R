@@ -147,22 +147,22 @@ source("Simu1L.R")
 SimuList=list(
   M=rep(c("unif","piecewise_unif","pareto","gamma","beta"),each=3),
   Setting=rep(c("Uniform","P_Unif","Pareto","Gamma","Beta"),each=3),
-  l_index=rep(1:3,times=5),
-  lambda=rep(c("Con","TS","Lin"),times=5)
+  l_index=rep(c(1,3,2),times=5),
+  lambda=rep(c("Con","Lin","TS"),times=5)
 )
 
 Table1=data.frame(Setting=SimuList$Setting,
                   lambda=SimuList$lambda,
                   KS.mle1.mean=NA,
-                  KS.mle2.mean=NA,
                   KS.mle3.mean=NA,
+                  KS.mle2.mean=NA,
                   KS.init.mean=NA,
                   KS.pt.mean=NA,
                   KS.gamma.mean=NA,
                   KS.tNorm.mean=NA,
                   TV.mle1.mean=NA,
-                  TV.mle2.mean=NA,
                   TV.mle3.mean=NA,
+                  TV.mle2.mean=NA,
                   TV.init.mean=NA,
                   TV.pt.mean=NA,
                   TV.gamma.mean=NA,
@@ -248,8 +248,8 @@ Profit_default <- function(method = c("unif", "pareto", "gamma", "beta",
 SimuList=list(
   M=rep(c("unif","piecewise_unif","pareto","gamma","beta"),each=3),
   Setting=rep(c("Uniform","P_Unif","Pareto","Gamma","Beta"),each=3),
-  l_index=rep(1:3,times=5),
-  lambda=rep(c("Con","TS","Lin"),times=5)
+  l_index=rep(c(1,3,2),times=5),
+  lambda=rep(c("Con","Lin","TS"),times=5)
 )
 
 data_list_est_price=data_list_profit=data.frame()
@@ -319,9 +319,9 @@ for (i in 1:length(SimuList$Setting)) {
 
 ## re_level Method and Setting
 data_list_est_price$Method=factor(data_list_est_price$Method,
-                                  levels=c("MLE1","MLE2","MLE3","Initial","PT","Gamma-F","TN-F"))
+                                  levels=c("MLE1","MLE3","MLE2","Initial","PT","Gamma-F","TN-F"))
 data_list_profit$Method=factor(data_list_profit$Method,
-                               levels=c("MLE1","MLE1(est)","MLE2","MLE2(est)","MLE3","MLE3(est)","Initial","Initial(est)","PT","PT(est)","Gamma-F","Gamma-F(est)","TN-F","TN-F(est)"))
+                               levels=c("MLE1","MLE1(est)","MLE3","MLE3(est)","MLE2","MLE2(est)","Initial","Initial(est)","PT","PT(est)","Gamma-F","Gamma-F(est)","TN-F","TN-F(est)"))
 
 data_list_est_price$Setting=factor(data_list_est_price$Setting,
                                    levels=c("Uniform","P_Unif","Pareto","Gamma","Beta"))
@@ -385,5 +385,5 @@ colnames(table_data)=c(levels(data_list_profit$Method),"True_Profit")
 
 Table2=cbind.data.frame(Setting=SimuList$Setting,lambda=SimuList$lambda,
              table_data[,c(2,4,6,8,10,12,14)]-table_data[,c(1,3,5,7,9,11,13)])
-
-cat(print2_tex(Table2))
+# 
+# cat(print2_tex(Table2))
