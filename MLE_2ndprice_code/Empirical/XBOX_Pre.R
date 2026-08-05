@@ -3,7 +3,7 @@
 
 Xbox_data_extract <- function(Raw_unorg_data){
   colnames(Raw_unorg_data) <- c("auctionid", "bid", "bidtime", "bidder",
-                                      "bidderrate", "openbid", "price")
+                                "bidderrate", "openbid", "price")
   
   # Adding small random noise to all the bids to avoid equality among any two bid values.
   Raw_unorg_data$bid <- Raw_unorg_data$bid + runif(length(Raw_unorg_data$bid), min = 0, max = 0.01)
@@ -21,7 +21,21 @@ Xbox_data_extract <- function(Raw_unorg_data){
   Raw_biddata_list <- vector("list", Ka) # List containing each auction data separately.
   
   for(jj in 1:Ka){
-    indexjj <- which(Raw_unorg_data$auctionid == unique.auction.data[jj,1])
+    indexjj0 <- which(Raw_unorg_data$auctionid == unique.auction.data[jj,1])
+    indexjj <- c() ## to be removed from indexjj0
+    ## removing multiple bids (keep the last)
+    temp <- Raw_unorg_data[indexjj0,]
+    temp_bidders <- unique(temp$bidder)
+    for (bidder in 1:length(temp_bidders)) {
+      bidder_pos <- which(temp$bidder==temp_bidders[bidder]) ## on indexjj0
+      if (length(bidder_pos)>1) {
+        indexjj <- c(c(indexjj, indexjj0[max(bidder_pos)]))## keep the last one
+      }else{
+        indexjj <- c(indexjj, indexjj0[bidder_pos])
+      }
+    }
+    indexjj <- sort(indexjj)
+    
     t_otts <- Raw_unorg_data$bidtime[indexjj]
     N_all[jj] <- length(indexjj)   # Total number of bids for the jth auction.
     yy <-  Raw_unorg_data$bid[indexjj]  # All the private values of the bidders for the jth process
@@ -36,10 +50,11 @@ Xbox_data_extract <- function(Raw_unorg_data){
     Raw_biddata_list[[jj]] <- Raw_biddata_matrix
   }# END of for(jj in 1: Ka)
   
+  Raw_biddata_list[[16]] <- NULL  ## remove the auction with Private
   Raw.data.list <- list(Raw_biddata_list = Raw_biddata_list,
-                        Ka = Ka,
-                        tau_a = tau_a,
-                        r_k = r_k,
+                        Ka = Ka-1,
+                        tau_a = tau_a[-16],
+                        r_k = r_k[-16],
                         True.Method = "unknown")
   Raw.data.list$class = "SecondPriceAuction_Rawdata"
   
@@ -49,4 +64,4 @@ Xbox_data_extract <- function(Raw_unorg_data){
 raw_XBOX_7day <- read.csv("Empirical/Xbox_7day_auctions.csv", header = T)
 raw_data_list <- Xbox_data_extract(raw_XBOX_7day)
 
-save(raw_data_list, file = "Empirical/Xbox_7day_auctions.RData")
+# save(raw_data_list, file = "Empirical/Xbox_7day_auctions.RData")

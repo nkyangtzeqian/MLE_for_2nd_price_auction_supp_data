@@ -4,7 +4,7 @@ rm(list = ls())
 source("MainL.R")
 source("distributionsL.R")
 source("DataGenerationL.R")
-source("lambda_fun.R")
+source("Empirical/lambda_fun_Ebay.R")
 source("DisCompare.R")
 source("PT_MCMC.R")
 
@@ -23,7 +23,7 @@ LAMBDA_SET_LIST=list(
 
 
 NSimu=100
-NRep=50
+NRep=100
 
 
 # Training dataset

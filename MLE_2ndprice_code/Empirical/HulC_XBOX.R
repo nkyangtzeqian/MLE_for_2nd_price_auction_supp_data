@@ -3,14 +3,15 @@ rm(list=ls())
 library(tidyverse)
 # library(transport) # For calculating Wasserstein distance between two distribution functions.
 
-source("Main.R")
-source("distributions.R")
-source("DataGeneration.R")
+source("MainL.R")
+source("distributionsL.R")
+source("DataGenerationL.R")
 # source("DisCompare.R")
 source("SettingGeneration.R")
 source("PT_MCMC.R")
+source("Empirical/lambda_fun_Ebay.R")
 
-source("HulC_main.R")
+source("HulC_mainL.R")
 
 x.med.vec <- seq(0,400,by=20)
 Delta=0
@@ -29,15 +30,19 @@ set.seed(123)
 
 data <- Data_Gen_Observed(raw_data_list)
 
-reserve.price.Cutoff <- ceiling(quantile(data$r_k, probs = 0.25))
+tau_a=data$tau_a
 
-Init.Values <- Initialization_lambda_F(data, reserve.price.Cutoff)
+reserve.price.Cutoff <- ceiling(quantile(data$r_k, probs = 0.28))
+
+lambda_set <- list(TWO_STAGE=TRUE, tau_1=6)
+
+Init.Values <- Initialization_lambda_F(data = data, reserve.price.Cutoff, lambda_set = lambda_set, MAX_L_EST=10)
 theta.init <- (1-Init.Values$F.y)/ c(1,(1-Init.Values$F.y)[-length(Init.Values$F.y)])
-MLE <- MLE_2ndprice(data, lambda.in = Init.Values$lambda, theta.in = theta.init)
+MLE <- MLE_2ndprice_twosteps(data, lambda.in = Init.Values$lambda, theta.in = theta.init, lambda_set = lambda_set)
 
-set.seed(123456)
-reserve.price.Cutoff <- ceiling(quantile(data$r_k, probs = 0.25))
-Hulc.Conf <- HulC1d_Ebay(raw_data_all_list = raw_data_list, eval.points = x.med.vec, alpha=.1,
+set.seed(1234567)
+reserve.price.Cutoff <- ceiling(quantile(data$r_k, probs = 0.28)) ## 0.28, otherwise cannot be run
+Hulc.Conf <- HulC1d_Ebay(raw_data_all_list = raw_data_list, eval.points = x.med.vec, lambda_set = lambda_set, alpha=.1,
                          MLE.Cutoff = reserve.price.Cutoff, diff_bias = 0, Delta=Delta)
 
 # set.seed(1)
