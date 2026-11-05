@@ -1,5 +1,5 @@
 # MLE_for_2nd_price_auction_supp_data
-Supplement codes and data for paper _A semi-parametric approach for estimating consumer valuation distributions using second price auctions_.
+Supplement B for paper _A semi-parametric approach for estimating consumer valuation distributions using second price auctions_.
 
 ## The structure of folders:
 
@@ -15,7 +15,7 @@ Supplement codes and data for paper _A semi-parametric approach for estimating c
 ## Explanation of R files:
 
 #### NHPP Revision: 
-**All files end with 'L' suffix represent the Non-Homogeneous Poisson Process (NHPP) extension -- incorporating flexible modeling in lambda_fun.R -- and the functionality are the same as the base files without the 'L' suffix.**
+**All files end with 'L' suffix represent the Non-Homogeneous Poisson Process (NHPP) extension -- incorporating flexible modeling in lambda_fun.R -- and the functionality are the same as the base files without the 'L' suffix.**.\
 &nbsp;&nbsp;&nbsp;&nbsp; Result in Table 5-8 and Figure 11.
 
 **All without 'L' suffix**: Base files with Homogeneous Poisson Process (HPP) assumption.
@@ -55,6 +55,8 @@ Supplement codes and data for paper _A semi-parametric approach for estimating c
   
   **Simu1_Table.R**: automatically conducts all simulations correspond to the previous 2 files with different settings and present Table 2 and Table 4.
 
+  **Simu1L.R** and **Simu1L_Table.R**: works the same as previous files, but for the NHPP extension. Generate Table 5 and Table 6.
+
 
   **Simu2_HulC_Coverage.R**:  main function to conduct (one of) the simulation in Table 3 (comparison of HulC band of MLE, Init and credible band of PT on band area and coverage, with K=100 and 1000; originally Table2).
 
@@ -62,7 +64,7 @@ Supplement codes and data for paper _A semi-parametric approach for estimating c
   
   **Simu2_Table.R**: automatically conducts all simulations correspond to the previous two files with different settings and present Table 3. First run coverage, then run truncated coverage.
 
-  **Simu1_Plotprofit.R** plots Figure 10 and profit/estimated profit plots which is not used in the paper.
+  **Simu1_Plotprofit.R** plots Figure 10 and profit/estimated profit plots which is not used in the paper.\
   &nbsp;&nbsp;&nbsp;&nbsp; Figure 10 is saved in Plots\multiple_Max_Profit_Price_1.pdf and profits plot is saved in Plots\Profit_1.pdf.
 
 
@@ -92,32 +94,32 @@ Supplement codes and data for paper _A semi-parametric approach for estimating c
 
   **median_bias_simu.R**: main function simulate the median bias and difference in median of MLE, Init and PT (which is not meaningful) estimate to the true F0 with K=20 (since we have batches in HulC methods; when K grows, they will be even smaller) in (one of) the settings. Could be seen that the median bias is usually small for MLE excluding the boundary for all settings we used in the plots. Use as initial study, only for reference.
 
-  **wait_time_Poisson.R** plots Figure S.1.
+  **wait_time_Poisson.R** plots Figure S.1.\
     &nbsp;&nbsp;&nbsp;&nbsp; Figure S.1 is saved as wait_time_Poisson_placed.png and wait_time_Poisson_observed.png.
 
-  **multiple_cost_plot.R** Run simulation and plots for Figure S.2
+  **multiple_cost_plot.R** Run simulation and plots for Figure S.2.\
   &nbsp;&nbsp;&nbsp;&nbsp; Figure S.2. is saved as multiple_Max_Profit_Price_1.pdf. Results are saved in Multiple_costs_trace_unif.RData and other 4 files.
 
 ### Under Empirical folder (and their plots):
 
   **lambda_fun_Ebay.R**: functions to define the intensity function of the Non-Homogeneous Poisson Process for the Ebay dataset, and everything else needed to calculate the MLE on Ebay dataset.
 
-  **TwoStageEbay.R**: main function to conduct the first-stage study on XBox dataset, and generate the results in Table 7.\
+  **TwoStageEbay.R**: main function to conduct the first-stage study on XBox dataset, and generate the results in Table 7.
 
   **XBOX_Pre.R**: extract organized data from a real (raw) Xbox Auctions data set and covert to our format.
   
-  **MSE_selling_price.R**: function to fit models on train set, and generate (simulate) the final selling price on test set and compare them to the true value in MSE. Corresponding to Table 4. Note the PT here uses estimated result from MLE for the unknown total number of bidders, only for reference.
-    &nbsp;&nbsp;&nbsp;&nbsp; **MSE_L_selling_price.R** is the same function but for the NHPP extension. 
+  **MSE_selling_price.R**: function to fit models on train set, and generate (simulate) the final selling price on test set and compare them to the true value in MSE. Note the PT here uses estimated result from MLE for the unknown total number of bidders, only for reference. Not used after the NHPP is introduced.\
+    &nbsp;&nbsp;&nbsp;&nbsp; **MSE_L_selling_price.R** is the same function but for the NHPP extension.  Corresponding to Table 8.
   
   **HulC_XBOX.R**: function to generate fitted CDF curves and bands in the whole dataset.\
-    &nbsp;&nbsp;&nbsp;&nbsp; Results saved in HulC_XBOX_all.pdf.
+    &nbsp;&nbsp;&nbsp;&nbsp; Results saved in HulC_XBOX_all.pdf, or Fig 11.
 
     
   **check_seq_auc.R**: function to check the multiple-bidding issue.
   
   **dis_selling_price.R**: comparison of the final selling price generated by each method, and calculate The Average Overlap Ratio and the Average Range Ratio for each methods. Not used in the paper, just for reference. Further investigate shows heterogeneity in some of the XBOX products which cannot be explained by observed bid only.
 
-  **Initialization_lambda_F_fp.R**: auxilary function to generate the initial estimate of F_fp for comparison in the empirical study.
+  **Initialization_lambda_F_fp.R**: auxilary function to generate the initial estimate of F_fp for comparison in the empirical study. Same as in MainL.R, but used for Ebay dataset.
 
 
 ## Explanation of R Data file
@@ -126,6 +128,8 @@ Supplement codes and data for paper _A semi-parametric approach for estimating c
   **Table1A_unif_K=100.RData** and so on: results of Simu1.R, simu1_add_ParaF.R and Simu1_Table.R. "A" represents add parametric methods.
 
   **Table1A_ProfitRes_unif_K=100.RData** and so on: results of Simu1.R, simu1_add_ParaF.R and Simu1_Table.R, saving profit results (max-profit price, profit and estimated profit).
+
+  **Table1L_1_ProfitRes_beta_K=100.RData** and so on: similar to one without 'L' suffix, but for the NHPP extension. Number after 'L' represents NHPP model type in DGM.
   
   **HulC_Cov_unif With No. Auction = 100.RData** and so on: results of Simu2_HulC_Coverage.R and Simu2_Table.R.
 
@@ -145,7 +149,8 @@ Supplement codes and data for paper _A semi-parametric approach for estimating c
   
   **Xbox_7day_auctions.RData**: dataset we used, produced by XBOX_Pre.R
 
-  **Xbox_simu_0.5.RData** and **Xbox_simu_0.67.RData**: results of MSE_selling_price.R.
+  **Xbox_simuL_0.5.RData** and **Xbox_simuL_0.67.RData**: results of MSE_selling_price.R.\
+   &nbsp;&nbsp;&nbsp;&nbsp; These two are too large, thus not uploaded in AppendixB.zip. You can find them here in GitHub repository, or run MSE_L_selling_price.R to generate them. Corresponding to Table 8.
   
   **Xbox_simu_dist.RData**: result of dis_selling_price.R.
   
