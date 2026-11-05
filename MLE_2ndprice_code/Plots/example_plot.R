@@ -54,10 +54,13 @@ time.cum <- cumsum(tts[-(tot.bids+1)])
 plot.xx<- xx
 plot.yy<- yy
 zz<- stepfun(time.cum, c(2,plot.xx), ties = "ordered", right = FALSE)
+
+pdf("Plots/example_single_plot_BW.pdf", width=8, height=6)
 plot(zz, cex.points= .5, xlim=c(0,sum(tts)), ylim = c(0,max(yy)+1), xlab="Time in minutes", ylab="Asking price in dollars", main="Example bidding data")
 for(ii in 1:tot.bids){
-  segments(time.cum[ii], 0, time.cum[ii], plot.yy[ii], col="blue")
+  segments(time.cum[ii], 0, time.cum[ii], plot.yy[ii], col="gray")
 }
+dev.off()
 # save.image("bidexample.Rdata")
 # 
 # 
@@ -118,7 +121,7 @@ example_orig=list(auction1=list(r_k=10,xx=c(12,6,9,15,11,19,5,2,23,17),tts=c(1.0
                  auction3=list(r_k=13,xx=c(8,6,3,3,11,10,6,18,4,3,8,10),tts=c(1.117,0.253,0.462,0.299,0.906,1.836,1.733,0.315,1.281,0.445,0.257,0.163)),
                  auction4=list(r_k=17,xx=c(7,8,4,2,15,12,4,10,3,3,6,15),tts=c(0.090,1.231,0.292,0.827,0.437,0.554,1.604,1.156,1.481,0.357,0.015,1.436)))
 
-pdf("Plots/example_plot.pdf", width=8, height=4)
+pdf("Plots/example_plot_BW.pdf", width=8, height=4)
 par(mfrow=c(2,2), mar=c(4,4,2,2), mgp=c(2,0.5,0))
 
 for (i in 1:4) {
@@ -130,7 +133,7 @@ for (i in 1:4) {
   zz<- stepfun(time.cum, c(example_orig[[i]]$r_k,plot.yy), ties = "ordered", right = FALSE)
   plot(zz, cex.points= .5, xlim=c(0,10), ylim = c(0,26), xlab="Time in days", ylab="Asking price in dollars", main=paste0("Example bidding data in Auction ",i))
   for(ii in 1:length(time.cum)){
-    segments(time.cum[ii], 0, time.cum[ii], plot.xx[ii], col="blue")
+    segments(time.cum[ii], 0, time.cum[ii], plot.xx[ii], col="gray")
   }
 }
 dev.off()          

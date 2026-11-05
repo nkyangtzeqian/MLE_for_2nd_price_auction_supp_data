@@ -70,7 +70,11 @@ Supplement codes and data for paper _A semi-parametric approach for estimating c
       &nbsp;&nbsp;&nbsp;&nbsp; Results from it is saved in file Example_MLE_2step_for_large_lambda.RData.
   
   **example_plot.R**: Used to generate the Fig 1 and Fig 2 in the paper.\
-       &nbsp;&nbsp;&nbsp;&nbsp; Fig 2 is saved as example_plot.pdf.
+       &nbsp;&nbsp;&nbsp;&nbsp; Fig 1 and Fig 2 are saved as example_single_plot_BW.pdf and example_plot_BW.pdf.
+
+  **TrueF_plots.R**: Used to generate the Fig 4 in the paper.\
+       &nbsp;&nbsp;&nbsp;&nbsp; Fig 4 is saved as TrueF_plots_BW.pdf.
+
 
   **HulC_plot.R**: main function to draw the fitted curves of MLE, Init and PT estimates and their 90% HulC band/credible band in (one of) the settings. 
   
