@@ -14,7 +14,11 @@ Supplement codes and data for paper _A semi-parametric approach for estimating c
 
 ## Explanation of R files:
 
+#### NHPP Revision: 
 **All files end with 'L' suffix represent the Non-Homogeneous Poisson Process (NHPP) extension -- incorporating flexible modeling in lambda_fun.R -- and the functionality are the same as the base files without the 'L' suffix.**
+&nbsp;&nbsp;&nbsp;&nbsp; Result in Table 5-8 and Figure 11.
+
+**All without 'L' suffix**: Base files with Homogeneous Poisson Process (HPP) assumption.
 
 ### Under MLE_2ndprice_code folder:
 
